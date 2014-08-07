@@ -5,29 +5,45 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var routes = require('./routes');
-var users = require('./routes/user');
-
+var db = require('./config/db');
+var mongoose = require('mongoose');
+mongoose.connect(db.url + '/' + db.database, function (err, res) {
+    if (err) {
+        console.log ('ERROR connecting to: ' + db.url + '. ' + err);
+    } else {
+        console.log ('Succeeded connected to: ' + db.url);
+    }
+});
+mongoose.set('debug', true);
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+var router = express.Router();
+var server = app.listen(3000);
+var io = require('socket.io').listen(server);
 
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
+app.use(express.static(path.join(__dirname, 'client')));
 
-app.get('/', routes.index);
-app.get('/users', users.list);
+// MODELS
+// ==========================================================================================
+
+
+
+
+// ROUTES FOR THE API
+// ===========================================================================================
+
+
+var routes = require('./routes');
+require('./routes/users')(app);
+require('./routes/projects')(app);
+require('./routes/blog')(app);
 
 /// catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
+router.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -37,8 +53,8 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+if (router.get('env') === 'development') {
+    router.use(function(err, req, res, next) {
         res.render('error', {
             message: err.message,
             error: err
@@ -48,12 +64,19 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+router.use(function(err, req, res, next) {
     res.render('error', {
         message: err.message,
         error: {}
     });
 });
 
+router.get('/', function(req, res){
+    res.json({message: 'There is nothing here to see'});
+});
 
+
+app.get('*', routes.client);
 module.exports = app;
+
+console.log('server listening on port 3000');
