@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Blog = new Schema({
+var Post = new Schema({
     title: String,
     author: String,
     body: String,
@@ -17,4 +17,4 @@ var Blog = new Schema({
 
 });
 
-module.exports = mongoose.model('blog', Blog);
+module.exports = mongoose.model('post', Post);

@@ -5,85 +5,82 @@
 
 var Project = require('../server/models/project');
 
+// Save project
+exports.postProjects = function(req, res){
+    var project = new Project();
+    project.title = req.body.title;
+    project.subtitle = req.body.subtitle;
+    project.projectdate = req.body.projectdate;
+    project.skills = req.body.skills;
+    project.description = req.body.description;
+    project.imagepaths = req.body.imagepaths;
 
-module.exports = function(app){
-
-    // Save project
-    app.post('/api/projects', function(req, res){
-        var project = new Project();
-        project.title = req.body.title;
-        project.subtitle = req.body.subtitle;
-        project.projectdate = req.body.projectdate;
-        project.skills = req.body.skills;
-        project.description = req.body.description;
-        project.imagepaths = req.body.imagepaths;
-
-        project.save(function(err){
-            if(err){
-                res.send(err);
-            }
-            res.json({message: 'project created!: ', data: project});
-        });
+    project.save(function(err){
+        if(err){
+            res.send(err);
+        }
+        res.json({message: 'project created!: ', data: project});
     });
+};
 
-    //Find all
-    app.get('/api/projects', function(req, res){
-        Project.find({}).exec(function(err, projects) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                res.json(projects);
-            }
-        });
+// find all
+exports.getProjects =function(req, res){
+    Project.find({}).exec(function(err, projects) {
+        if (err) {
+            res.send('error', {
+                status: 500
+            });
+        } else {
+            res.json(projects);
+        }
     });
+};
 
-    // Find by id
-    app.get('/api/projects/:id', function(req, res){
-        Project.findById(req.params.id).exec(function(err, project) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                res.json(project);
-            }
-        });
+// find by id
+exports.getProject = function(req, res){
+    Project.findById(req.params.id).exec(function(err, project) {
+        if (err) {
+            res.send('error', {
+                status: 500
+            });
+        } else {
+            res.json(project);
+        }
     });
+};
 
-    // Update by id
-    app.put('/api/projects/:id', function(req, res){
-        Project.findById(req.params.id).exec(function(err, project) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                project.title = req.body.title;
-                project.subtitle = req.body.subtitle;
-                project.projectdate = req.body.projectdate;
-                project.skills = req.body.skills;
-                project.description = req.body.description;
-                project.imagepaths = req.body.imagepaths;
+// update by id
+exports.putProject = function(req, res){
+    Project.findById(req.params.id).exec(function(err, project) {
+        if (err) {
+            res.send('error', {
+                status: 500
+            });
+        } else {
+            project.title = req.body.title;
+            project.subtitle = req.body.subtitle;
+            project.projectdate = req.body.projectdate;
+            project.skills = req.body.skills;
+            project.description = req.body.description;
+            project.imagepaths = req.body.imagepaths;
 
-                project.save(function(err){
-                    if(err){
-                        res.send(err);
-                    }
-                });
+            project.save(function(err){
+                if(err){
+                    res.send(err);
+                }
+            });
 
-                res.json(project);
-            }
-        });
+            res.json(project);
+        }
     });
+};
 
-    app.delete('/api/projects/:id', function(req, res){
-        Project.findByIdAndRemove(req.params.id, function(err){
-            if(err){
-                res.send(err);
-            }
-            res.json({message: 'project deleted'});
-        });
+// delete by id
+exports.deleteProject = function(req, res){
+    Project.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            res.send(err);
+        }
+        res.json({message: 'project deleted'});
     });
 };
