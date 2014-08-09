@@ -5,6 +5,10 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var app = express();
+var router = express.Router();
+var server = app.listen(3000);
+var io = require('socket.io').listen(server);
 var db = require('./config/db');
 var mongoose = require('mongoose');
 mongoose.connect(db.url + '/' + db.database, function (err, res) {
@@ -15,10 +19,6 @@ mongoose.connect(db.url + '/' + db.database, function (err, res) {
     }
 });
 mongoose.set('debug', true);
-var app = express();
-var router = express.Router();
-var server = app.listen(3000);
-var io = require('socket.io').listen(server);
 
 app.use(favicon());
 app.use(logger('dev'));

@@ -1,11 +1,5 @@
 /* GET users listing. */
-//
-//var express = require('express');
-//var app = module.exports = express();
-//
-//app.get('/api/users', function(req, res){
-//   res.send('list of users');
-//});
+
 
 var User = require('../server/models/user');
 
