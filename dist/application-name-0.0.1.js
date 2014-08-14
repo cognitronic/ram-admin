@@ -1,8 +1,28 @@
 /**
- * Created by Danny Schreiber on 8/3/14.
+ * Created by Danny Schreiber on 8/11/14.
  */
 
-var app = angular.module('ram', ['restangular']);
+(function(){
+    var Constants = {
+        BASE_URLS : {
+            PUBLIC: 'http://localhost:3000',
+            API: 'http://localhost:3000/api/'
+        }
+    };
+    angular.module('ram').constant('Constants', Constants);
+})();
+/**
+ * Created by Danny Schreiber on 8/11/14.
+ */
+
+(function(){
+
+    var AuthService = function($http, $rootScope, $state, Constants){
+
+    };
+
+    angular
+})();
 /**
  * Created by Danny Schreiber on 8/3/14.
  * This controller is used to grab

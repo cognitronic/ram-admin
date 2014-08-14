@@ -13,14 +13,14 @@ module.exports = function(grunt){
 
         'meta': {
             'jsFilesForTesting': [
-                'vendor/jquery/dist/jquery.js',
-                'vendor/angular/angular.js',
-                'vendor/angular-ui-router/release/angular-ui-router.js',
-                'vendor/angular-sanitize/angular-sanitize.js',
-                'vendor/angular-mocks/angular-mocks.js',
-                'vendor/restangular/dist/restangular.js',
-                'vendor/underscore/underscore.js',
-                'tests/**/*Spec.js'
+                'client/vendor/jquery/dist/jquery.js',
+                'client/vendor/angular/angular.js',
+                'client/vendor/angular-ui-router/release/angular-ui-router.js',
+                'client/vendor/angular-sanitize/angular-sanitize.js',
+                'client/vendor/angular-mocks/angular-mocks.js',
+                'client/vendor/restangular/dist/restangular.js',
+                'client/vendor/underscore/underscore.js',
+                'specs/**/*Spec.js'
             ]
         },
         'karma': {
@@ -29,7 +29,7 @@ module.exports = function(grunt){
                 'options': {
                     'files': [
                         '<%= meta.jsFilesForTesting %>',
-                        'client/**/*.js'
+                        'client/app/**/*.js'
                     ]
                 }
             },
@@ -54,7 +54,7 @@ module.exports = function(grunt){
         },
         'concat': {
             'dist': {
-                'src': ['client/**/*.js'],
+                'src': ['client/app/**/*.js'],
                 'dest': 'dist/<%= pkg.name %>-<%= pkg.version %>.js'
             }
         },
@@ -69,7 +69,7 @@ module.exports = function(grunt){
             }
         },
         'jsdoc': {
-            'src': ['client/**/*.js'],
+            'src': ['client/app/**/*.js'],
             'options': {
                 'destination': 'doc'
             }

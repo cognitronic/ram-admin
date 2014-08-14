@@ -37,7 +37,7 @@ app.use(passport.initialize());
 
 // ROUTES FOR THE API
 // ===========================================================================================
-var clientRoutes = require('./routes');
+var clientRoutes = require('./routes/index');
 var authController = require('./routes/auth');
 
 //User
@@ -111,7 +111,9 @@ router.get('/', function(req, res){
 });
 
 app.use('/api', router);
-app.get('*', clientRoutes.client);
+router.use('*', function(err, req, res, next){
+    res.sendfile('./client/index.html');
+});
 module.exports = app;
 
 console.log('server listening on port 3000');
